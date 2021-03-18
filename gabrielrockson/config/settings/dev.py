@@ -9,9 +9,13 @@ SECRET_KEY = ')k_29r3w&x@@@e#mhal34r0g8^cw!3g-&y^qsq*94m)*^!z43)'
 # SECURITY WARNING: define the correct hosts in production!
 ALLOWED_HOSTS = ['*'] 
 
+INSTALLED_APPS += [
+    
+]
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.posgres',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'gabrielrockson',
         'USER': 'gabriel_rockson',
         'PASSWORD': 'rockson_gabriel',
