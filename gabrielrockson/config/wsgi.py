@@ -11,6 +11,8 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "gabrielrockson.settings.dev")
+# ! - In production, use gabrielrockson.config.settings.production
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "gabrielrockson.config.settings.dev")
+
 
 application = get_wsgi_application()
