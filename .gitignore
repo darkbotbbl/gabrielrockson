@@ -1,1 +1,3 @@
 .vscode/
+/process_documentation
+/__pycache__/
