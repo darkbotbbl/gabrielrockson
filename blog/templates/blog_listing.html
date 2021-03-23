@@ -1,12 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Welcome the blog app</h1>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load wagtailcore_tags %}
+
+
+{% block content %}
+    <h1>Blog</h1>
+    <hr />
+
+    {% for post in blog_posts %}
+        <h3><a href="{% pageurl post %}">{{ post.title }}</a></h3>
+        <p>{{ post.specific.date }}</p>
+        <p>{{ post.specific.intro }}</p>
+        <p>{{ post.specific.body|richtext|truncatewords:10 }}</p>
+        <hr />
+    {% empty %}
+        <h2>No posts yet</h2>
+    {% endfor %}
+
+{% endblock content %}
