@@ -1,10 +1,12 @@
 from django.db import models
 import blog
 
-from wagtail.core.models import Page
+from modelcluster.fields import ParentalKey
+from wagtail.core.models import Page, Orderable
 from wagtail.core.fields import RichTextField
-from wagtail.admin.edit_handlers import RichTextFieldPanel, FieldPanel
+from wagtail.admin.edit_handlers import InlinePanel, FieldPanel
 from wagtail.search import index
+from wagtail.images.edit_handlers import ImageChooserPanel
 
 
 class BlogListPage(Page):
@@ -21,7 +23,7 @@ class BlogListPage(Page):
 
 
 class BlogDetailPage(Page):
-    
+    """This is the model for creating an individual blog post"""
     parent_page_types = [
         BlogListPage
     ]
@@ -40,4 +42,28 @@ class BlogDetailPage(Page):
         FieldPanel("date"),
         FieldPanel("intro", classname="full"),
         FieldPanel("body", classname="full"),
+        InlinePanel("gallery_images", label="Gallery Images")
+    ]
+
+
+
+class BlogGallery(Orderable):
+    """
+        This model is used to add gallery images to a particular blog post
+    """
+    page = ParentalKey(
+        BlogDetailPage,
+        on_delete=models.CASCADE,
+        related_name="gallery_images"
+    )
+    image = models.ForeignKey(
+        "wagtailimages.Image",
+        related_name="+",
+        on_delete=models.CASCADE,
+    )
+    caption = models.CharField(blank=True, max_length=200)
+
+    panels = [
+        ImageChooserPanel("image"),
+        FieldPanel("caption"),
     ]

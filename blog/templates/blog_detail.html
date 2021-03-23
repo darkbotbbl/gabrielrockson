@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtailimages_tags %}
 {% block content %}
     <h2>{{ self.title }}</h2>
     <blockquote>{{ self.intro }}</blockquote>
     <p>{{ self.body|richtext }}</p>
+    {% for image in self.gallery_images.all %}
+        {% image image.image fill-340x260 %} 
+        <span>{{ image.caption }}</span>
+    {% endfor %}
 {% endblock content %}
