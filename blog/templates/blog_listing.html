@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtailimages_tags %}
 
 
 {% block content %}
@@ -7,11 +7,16 @@
     <hr />
 
     {% for post in blog_posts %}
-        <h3><a href="{% pageurl post %}">{{ post.title }}</a></h3>
-        <p>{{ post.specific.date }}</p>
-        <p>{{ post.specific.intro }}</p>
-        <p>{{ post.specific.body|richtext|truncatewords:10 }}</p>
+        {% with post.specific as post %}
+            {% with post.main_image as main_image %}
+                {% if main_image %}{% image main_image fill-160x160 %}{% endif %}
+            {% endwith %}
+            <h3><a href="{% pageurl post %}">{{ post.title }}</a></h3>
+            <p>{{ post.date }}</p>
+            <p>{{ post.intro }}</p>
+            <p>{{ post.body|richtext|truncatewords:10 }}</p>
         <hr />
+        {% endwith %}
     {% empty %}
         <h2>No posts yet</h2>
     {% endfor %}

@@ -38,6 +38,16 @@ class BlogDetailPage(Page):
         index.SearchField("body"),
     ]
 
+    def main_image(self):
+        """this method will return the first image in the gallery so it can be used
+            as thumbnail image in the listing
+        """
+        gallery_item = self.gallery_images.first()
+        if gallery_item:
+            return gallery_item.image
+        else:
+            return None
+
     content_panels = Page.content_panels + [
         FieldPanel("date"),
         FieldPanel("intro", classname="full"),
