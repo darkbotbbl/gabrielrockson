@@ -1,12 +1,12 @@
 from django.db import models
-import blog
-
 from modelcluster.fields import ParentalKey
-from wagtail.core.models import Page, Orderable
+from wagtail.admin.edit_handlers import FieldPanel, InlinePanel
 from wagtail.core.fields import RichTextField
-from wagtail.admin.edit_handlers import InlinePanel, FieldPanel
-from wagtail.search import index
+from wagtail.core.models import Orderable, Page
 from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.search import index
+from modelcluster.contrib.taggit import ClusterTaggableManager
+from taggit.models import TaggedItemBase
 
 
 class BlogListPage(Page):
@@ -31,6 +31,7 @@ class BlogDetailPage(Page):
 
     date = models.DateField("Post Date")
     intro = models.CharField("Introduction of the Post", max_length=255)
+    tags = ClusterTaggableManager(through="blog.BlogPageTag", blank=True)
     body = RichTextField()
 
     search_fields = Page.search_fields + [
@@ -50,6 +51,7 @@ class BlogDetailPage(Page):
 
     content_panels = Page.content_panels + [
         FieldPanel("date"),
+        FieldPanel("tags"),
         FieldPanel("intro", classname="full"),
         FieldPanel("body", classname="full"),
         InlinePanel("gallery_images", label="Gallery Images")
@@ -77,3 +79,27 @@ class BlogGallery(Orderable):
         ImageChooserPanel("image"),
         FieldPanel("caption"),
     ]
+
+
+class BlogPageTag(TaggedItemBase):
+    """this model is used in creating tags for blog posts"""
+    content_object = ParentalKey(BlogDetailPage, on_delete=models.CASCADE, related_name="tagged_items")
+
+
+class BlogTagsIndexPage(Page):
+    """This model is the index blog page of a tag"""
+
+    template = "blog_tags_index_page.html"
+
+    def get_context(self, request):
+        
+        tag = request.GET.get('tag')
+        blog_posts = BlogDetailPage.objects.filter(tags__name=tag)
+
+        print(tag)
+        print(blog_posts)
+
+        context = super().get_context(request)
+        context['blog_posts'] = blog_posts
+        context['tag'] = tag
+        return context

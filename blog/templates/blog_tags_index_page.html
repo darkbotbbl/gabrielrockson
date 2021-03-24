@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+
+{% block content %}
+    
+    {% if tag %}
+        <h1>Posts for {{ tag }}</h1>
+        <hr />
+
+        {% for post in blog_posts %}
+            {% with post.specific as post %}
+                {% with post.main_image as main_image %}
+                    {% if main_image %}{% image main_image fill-160x160 %}{% endif %}
+                {% endwith %}
+                <h3><a href="{% pageurl post %}">{{ post.title }}</a></h3>
+                <p>{{ post.body|richtext|truncatewords:10 }}</p>
+            <hr />
+            {% endwith %}
+        {% empty %}
+            <h2>No posts yet</h2>
+        {% endfor %}
+    {% else %}
+        <h2>No posts</h2>
+        <!-- todo - if the person visits the tags url, show a list of blogs groups per tags -->
+    {% endif %}
+
+{% endblock content %}

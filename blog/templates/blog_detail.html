@@ -4,8 +4,15 @@
     <h2>{{ self.title }}</h2>
     <blockquote>{{ self.intro }}</blockquote>
     <p>{{ self.body|richtext }}</p>
-    {% for image in self.gallery_images.all %}
-        {% image image.image fill-340x260 %} 
-        <span>{{ image.caption }}</span>
+    {% for item in self.gallery_images.all %}
+        {% image item.image fill-340x260 %} 
+        <span>{{ item.caption }}</span>
     {% endfor %}
+
+    {% if self.tags.all.count %}
+        <h3>Tags</h3>
+        {% for tag in self.tags.all %}
+            <h5><a href="{% slugurl 'tags' %}?tag={{ tag }}">{{ tag }}<a></h5>
+        {% endfor %}
+    {% endif %}
 {% endblock content %}
