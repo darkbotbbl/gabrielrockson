@@ -1,18 +1,21 @@
 from django.db import models
-from modelcluster.fields import ParentalKey
+from django import forms
+from modelcluster.contrib.taggit import ClusterTaggableManager
+from modelcluster.fields import ParentalKey, ParentalManyToManyField
+from taggit.models import TaggedItemBase
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel
 from wagtail.core.fields import RichTextField
 from wagtail.core.models import Orderable, Page
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
-from modelcluster.contrib.taggit import ClusterTaggableManager
-from taggit.models import TaggedItemBase
+from wagtail.snippets.models import register_snippet
 
 
 class BlogListPage(Page):
     subpage_types = [
         "BlogDetailPage",
     ]
+    max_count = 1
     template = "blog_listing.html"
 
     def get_context(self, request):
@@ -32,6 +35,7 @@ class BlogDetailPage(Page):
     date = models.DateField("Post Date")
     intro = models.CharField("Introduction of the Post", max_length=255)
     tags = ClusterTaggableManager(through="blog.BlogPageTag", blank=True)
+    categories = ParentalManyToManyField("blog.BlogCategory", blank=True)
     body = RichTextField()
 
     search_fields = Page.search_fields + [
@@ -52,6 +56,7 @@ class BlogDetailPage(Page):
     content_panels = Page.content_panels + [
         FieldPanel("date"),
         FieldPanel("tags"),
+        FieldPanel("categories", widget=forms.CheckboxSelectMultiple),
         FieldPanel("intro", classname="full"),
         FieldPanel("body", classname="full"),
         InlinePanel("gallery_images", label="Gallery Images")
@@ -90,6 +95,7 @@ class BlogTagsIndexPage(Page):
     """This model is the index blog page of a tag"""
 
     template = "blog_tags_index_page.html"
+    max_count = 1
 
     def get_context(self, request):
         
@@ -103,3 +109,28 @@ class BlogTagsIndexPage(Page):
         context['blog_posts'] = blog_posts
         context['tag'] = tag
         return context
+
+
+@register_snippet
+class BlogCategory(models.Model):
+    """This model is used to create a blog category independent of a blog page"""
+    name = models.CharField(max_length=50, blank=False, null=False)
+    icon = models.ForeignKey(
+        "wagtailimages.Image",
+        on_delete=models.SET_NULL,
+        related_name="+",
+        blank=True,
+        null=True
+    )
+
+    def __str__(self):
+        return self.name
+    
+
+    class Meta:
+        verbose_name_plural = "Blog Categories"
+
+    panels = [
+        FieldPanel("name"),
+        ImageChooserPanel("icon")
+    ]

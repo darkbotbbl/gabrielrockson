@@ -9,10 +9,21 @@
         <span>{{ item.caption }}</span>
     {% endfor %}
 
+    <!-- Tags -->
     {% if self.tags.all.count %}
         <h3>Tags</h3>
         {% for tag in self.tags.all %}
             <h5><a href="{% slugurl 'tags' %}?tag={{ tag }}">{{ tag }}<a></h5>
         {% endfor %}
     {% endif %}
+
+    <!-- Categories -->
+    {% with self.categories.all as categories %}
+        {% if categories %}
+            <h3>Categoies posted in: </h3>
+            {% for category in categories %}
+                <p>{{ category.name }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 {% endblock content %}
