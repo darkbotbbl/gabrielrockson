@@ -52,6 +52,10 @@ class BlogAuthor(models.Model):
     facebook = models.URLField(blank=True, null=True, help_text="Enter the link to your facebook account")
     instagram = models.URLField(blank=True, null=True, help_text="Enter the link to your instagram account")
 
+    def fullname(self):
+        """a method that will return the ful name of the author"""
+        return "{} {}".format(self.first_name, self.last_name)
+
     def __str__(self):
         return "{} {}".format(self.first_name, self.last_name)
     

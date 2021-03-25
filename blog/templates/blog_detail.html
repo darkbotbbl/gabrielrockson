@@ -3,6 +3,7 @@
 {% block content %}
     <h2>{{ self.title }}</h2>
     <blockquote>{{ self.intro }}</blockquote>
+    {{ self.author.fullname }}
     <p>{{ self.body|richtext }}</p>
     {% for item in self.gallery_images.all %}
         {% image item.image fill-340x260 %} 
@@ -29,7 +30,5 @@
     <!-- todo -> Add a functionality such that when the person clicks on a particular cateogory, it 
         will send him to a page listing blog posts of that category.
     -->
-    <!--
-        todo -> Add blog author to the website
-    -->
+    
 {% endblock content %}
