@@ -35,7 +35,7 @@ class BlogDetailPage(Page):
     date = models.DateField("Post Date")
     intro = models.CharField("Introduction of the Post", max_length=255)
     tags = ClusterTaggableManager(through="blog.BlogPageTag", blank=True)
-    categories = ParentalManyToManyField("blog.BlogCategory", blank=True)
+    categories = ParentalManyToManyField("snippets.BlogCategory", blank=True)
     body = RichTextField()
 
     search_fields = Page.search_fields + [
@@ -109,28 +109,3 @@ class BlogTagsIndexPage(Page):
         context['blog_posts'] = blog_posts
         context['tag'] = tag
         return context
-
-
-@register_snippet
-class BlogCategory(models.Model):
-    """This model is used to create a blog category independent of a blog page"""
-    name = models.CharField(max_length=50, blank=False, null=False)
-    icon = models.ForeignKey(
-        "wagtailimages.Image",
-        on_delete=models.SET_NULL,
-        related_name="+",
-        blank=True,
-        null=True
-    )
-
-    def __str__(self):
-        return self.name
-    
-
-    class Meta:
-        verbose_name_plural = "Blog Categories"
-
-    panels = [
-        FieldPanel("name"),
-        ImageChooserPanel("icon")
-    ]
