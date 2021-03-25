@@ -14,7 +14,7 @@
                     {% if main_image %}{% image main_image fill-160x160 %}{% endif %}
                 {% endwith %}
                 <h3><a href="{% pageurl post %}">{{ post.title }}</a></h3>
-                <p>{{ post.body|richtext|truncatewords:10 }}</p>
+                <p>{{ post.body|truncatewords:10 }}</p>
             <hr />
             {% endwith %}
         {% empty %}
