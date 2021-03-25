@@ -4,7 +4,7 @@
     <h2>{{ self.title }}</h2>
     <blockquote>{{ self.intro }}</blockquote>
     {{ self.author.fullname }}
-    <p>{{ self.body|richtext }}</p>
+    <p>{{ self.body }}</p>
     {% for item in self.gallery_images.all %}
         {% image item.image fill-340x260 %} 
         <span>{{ item.caption }}</span>

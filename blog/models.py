@@ -1,15 +1,17 @@
-from django.db import models
+from streams.blocks import TitleBlock, NormalTextBlock, FullRichTextFieldBlock
 from django import forms
+from django.db import models
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from taggit.models import TaggedItemBase
-from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel
-from wagtail.core.fields import RichTextField
+from wagtail.admin.edit_handlers import (FieldPanel, InlinePanel,
+                                         MultiFieldPanel, StreamFieldPanel)
+from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Orderable, Page
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
-from wagtail.snippets.models import register_snippet
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
+from wagtail.snippets.models import register_snippet
 
 
 class BlogListPage(Page):
@@ -38,7 +40,11 @@ class BlogDetailPage(Page):
     tags = ClusterTaggableManager(through="blog.BlogPageTag", blank=True)
     categories = ParentalManyToManyField("snippets.BlogCategory", blank=True)
     author = models.ForeignKey("snippets.BlogAuthor", blank=False, on_delete=models.SET_NULL, null=True)
-    body = RichTextField()
+    body = StreamField([
+        ('title', TitleBlock()),
+        ('normal_text', NormalTextBlock()),
+        ('main_text', FullRichTextFieldBlock()),
+    ])
 
     search_fields = Page.search_fields + [
         index.SearchField("intro"),
@@ -63,7 +69,9 @@ class BlogDetailPage(Page):
             SnippetChooserPanel("author")
         ], heading="Blog Information"),
         FieldPanel("intro", classname="full"),
-        FieldPanel("body", classname="full"),
+        MultiFieldPanel([
+            StreamFieldPanel("body"),
+        ], heading="Blog Content", classname=""),
         InlinePanel("gallery_images", label="Gallery Images")
     ]
 

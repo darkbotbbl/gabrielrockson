@@ -14,7 +14,7 @@
             <h3><a href="{% pageurl post %}">{{ post.title }}</a></h3>
             <p>{{ post.date }}</p>
             <p>{{ post.intro }}</p>
-            <p>{{ post.body|richtext|truncatewords:10 }}</p>
+            <p>{{ post.body|truncatewords:10 }}</p>
         <hr />
         {% endwith %}
     {% empty %}
