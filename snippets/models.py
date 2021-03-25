@@ -42,18 +42,25 @@ class BlogAuthor(models.Model):
         "wagtailimages.Image",
         related_name="+",
         blank=False,
-        null=False,
+        null=True,
+        on_delete=models.SET_NULL,
     )
-    phone = models.PositiveIntegerField()
+    
+    phone = models.PositiveIntegerField(null=False, blank=False)
     email = models.EmailField(blank=False, null=False)
     twitter_handle = models.URLField(blank=True, null=True, help_text="Enter the link to your twitter handle")
     facebook = models.URLField(blank=True, null=True, help_text="Enter the link to your facebook account")
     instagram = models.URLField(blank=True, null=True, help_text="Enter the link to your instagram account")
 
+    def __str__(self):
+        return "{} {}".format(self.first_name, self.last_name)
+    
+
     panels = [
         FieldPanel("first_name"),
         FieldPanel("last_name"),
         ImageChooserPanel("avatar"),
+        FieldPanel("phone"),
         FieldPanel("email"),
         FieldPanel("twitter_handle"),
         FieldPanel("facebook"),

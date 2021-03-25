@@ -3,12 +3,13 @@ from django import forms
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from taggit.models import TaggedItemBase
-from wagtail.admin.edit_handlers import FieldPanel, InlinePanel
+from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.core.fields import RichTextField
 from wagtail.core.models import Orderable, Page
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
+from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
 
 class BlogListPage(Page):
@@ -36,6 +37,7 @@ class BlogDetailPage(Page):
     intro = models.CharField("Introduction of the Post", max_length=255)
     tags = ClusterTaggableManager(through="blog.BlogPageTag", blank=True)
     categories = ParentalManyToManyField("snippets.BlogCategory", blank=True)
+    author = models.ForeignKey("snippets.BlogAuthor", blank=False, on_delete=models.SET_NULL, null=True)
     body = RichTextField()
 
     search_fields = Page.search_fields + [
@@ -54,9 +56,12 @@ class BlogDetailPage(Page):
             return None
 
     content_panels = Page.content_panels + [
-        FieldPanel("date"),
-        FieldPanel("tags"),
-        FieldPanel("categories", widget=forms.CheckboxSelectMultiple),
+        MultiFieldPanel([
+            FieldPanel("date"),
+            FieldPanel("tags"),
+            FieldPanel("categories", widget=forms.CheckboxSelectMultiple),
+            SnippetChooserPanel("author")
+        ], heading="Blog Information"),
         FieldPanel("intro", classname="full"),
         FieldPanel("body", classname="full"),
         InlinePanel("gallery_images", label="Gallery Images")
