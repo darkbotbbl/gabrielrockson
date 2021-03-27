@@ -30,5 +30,8 @@
     <!-- todo -> Add a functionality such that when the person clicks on a particular cateogory, it 
         will send him to a page listing blog posts of that category.
     -->
-    
+    <!--Related blog posts-->
+    {% for related_post in self.related_blog_posts.all %}
+        <p> {{ related_post.blog_post.title }}</p>
+    {% empty %}{% endfor %}
 {% endblock content %}

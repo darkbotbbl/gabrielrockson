@@ -5,7 +5,7 @@ from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from taggit.models import TaggedItemBase
 from wagtail.admin.edit_handlers import (FieldPanel, InlinePanel,
-                                         MultiFieldPanel, StreamFieldPanel)
+                                         MultiFieldPanel, StreamFieldPanel, PageChooserPanel)
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Orderable, Page
 from wagtail.images.edit_handlers import ImageChooserPanel
@@ -72,6 +72,9 @@ class BlogDetailPage(Page):
         MultiFieldPanel([
             StreamFieldPanel("body"),
         ], heading="Blog Content", classname=""),
+        MultiFieldPanel([
+            InlinePanel("related_blog_posts", label="Related Blog Posts")
+        ]),
         InlinePanel("gallery_images", label="Gallery Images")
     ]
 
@@ -122,3 +125,20 @@ class BlogTagsIndexPage(Page):
         context['blog_posts'] = blog_posts
         context['tag'] = tag
         return context
+
+
+# related blog posts
+class RelatedBlogPost(Orderable):
+    """This model is used to add related blog posts to the blog post"""
+    page = ParentalKey("blog.BlogDetailPage", on_delete=models.CASCADE, related_name="related_blog_posts")
+    blog_post = models.ForeignKey(
+        "wagtailcore.Page",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+"
+    )
+
+    panels = [
+        PageChooserPanel("blog_post", "blog.BlogDetailPage")
+    ]
