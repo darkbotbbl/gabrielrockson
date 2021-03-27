@@ -1,0 +1,23 @@
+
+
+/* Customizing the navbar */
+#custom-nav {
+
+}
+
+#custom-nav .navbar-brand {
+    color: whitesmoke;
+    font-weight: bold;
+    font-size: 1.8rem;
+    font-family: cursive;
+}
+
+#custom-nav .nav-item .nav-link {
+    color: white;
+    font-size: 1.2rem;
+}
+
+#custom-nav .nav-item .nav-link:hover {
+    border-bottom: 1px solid red;
+    transition: all 1s ease-in;
+}
