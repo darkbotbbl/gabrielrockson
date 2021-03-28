@@ -1,37 +1,69 @@
 {% extends 'base.html' %}
 {% load wagtailcore_tags wagtailimages_tags %}
 {% block content %}
-    <h2>{{ self.title }}</h2>
-    <blockquote>{{ self.intro }}</blockquote>
-    {{ self.author.fullname }}
-    <p>{{ self.body }}</p>
-    {% for item in self.gallery_images.all %}
-        {% image item.image fill-340x260 %} 
-        <span>{{ item.caption }}</span>
-    {% endfor %}
 
-    <!-- Tags -->
-    {% if self.tags.all.count %}
-        <h3>Tags</h3>
-        {% for tag in self.tags.all %}
-            <h5><a href="{% slugurl 'tags' %}?tag={{ tag }}">{{ tag }}<a></h5>
+    <div class="container" id="blog-box">
+        <!-- header image of the blog -->
+        {% with self.main_image as main_image %}
+            {% image main_image original as img %}
+            <img src="{{ img.url }}" class="img-fluid blog-image__bd">
+        {% endwith %}
+
+        <!-- Blog Title -->
+        <h2 class="text-center blog-title__bd">{{ self.title }}</h2>
+
+        <!-- Blog Information -->
+        <div class="row blog-info__bd">
+            <div class="col-lg-3 col-12">
+                <span>Author: </span><span>{{ self.author.fullname }}</span>
+            </div>
+            <div class="col-lg-3 col-12">
+                <span>Date Posted: </span><span>{{ self.date }}</span>
+            </div>
+            <div class="col-lg-3 col-12">
+                <span>Min Read Time: </span><span>15 minutes</span>
+            </div>
+        </div>
+
+        <!-- Intro -->
+        <blockquote class="blog-intro__bd">{{ self.intro }}</blockquote>
+
+        <!-- Main Content -->
+        {{ self.body }}
+
+
+        <!-- Gallery Images -->
+        {% for item in self.gallery_images.all %}
+            {% image item.image fill-340x260 %} 
+            <span>{{ item.caption }}</span>
         {% endfor %}
-    {% endif %}
 
-    <!-- Categories -->
-    {% with self.categories.all as categories %}
-        {% if categories %}
-            <h3>Categoies posted in: </h3>
-            {% for category in categories %}
-                <p>{{ category.name }}</p>
+        <!-- Tags -->
+        <!-- Tags -->
+        {% if self.tags.all.count %}
+            <h3>Tags</h3>
+            {% for tag in self.tags.all %}
+                <h5><a href="{% slugurl 'tags' %}?tag={{ tag }}">{{ tag }}<a></h5>
             {% endfor %}
         {% endif %}
-    {% endwith %}
-    <!-- todo -> Add a functionality such that when the person clicks on a particular cateogory, it 
-        will send him to a page listing blog posts of that category.
-    -->
-    <!--Related blog posts-->
-    {% for related_post in self.related_blog_posts.all %}
-        <p> {{ related_post.blog_post.title }}</p>
-    {% empty %}{% endfor %}
+
+        <!-- Categories -->
+        {% with self.categories.all as categories %}
+            {% if categories %}
+                <h3>Categoies posted in: </h3>
+                {% for category in categories %}
+                    <p>{{ category.name }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!--Related blog posts-->
+        {% for related_post in self.related_blog_posts.all %}
+            <p> {{ related_post.blog_post.title }}</p>
+        {% empty %}{% endfor %}
+        <!-- todo -> Add a functionality such that when the person clicks on a particular cateogory, it 
+            will send him to a page listing blog posts of that category.
+        -->
+        
+    </div>
 {% endblock content %}
