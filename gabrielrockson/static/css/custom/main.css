@@ -5,14 +5,11 @@ body {
 
 
 /* Customizing the navbar */
-#custom-nav {
-
-}
 
 #custom-nav .navbar-brand {
-    color: whitesmoke;
+    color: burlywood;
     font-weight: bold;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     font-family: cursive;
 }
 
@@ -35,8 +32,8 @@ body {
     font-family: sans-serif;
 }
 
-#blog-box p {
-    font-size: 1.3rem;
+#blog-box .blog-body__bd p{
+    font-size: 1.2rem;
 }
 
 #blog-box .blog-image__bd {
@@ -48,8 +45,8 @@ body {
     margin: 0.5rem;
     font-weight: bold;
     text-transform: capitalize;
-    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.8),
-                3px 4px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3),
+                2px 2px 2px rgba(0, 0, 0, 0.8);
 }
 
 #blog-box .blog-info__bd {
@@ -60,21 +57,31 @@ body {
 
 #blog-box .blog-info__bd span:nth-child(1) {
     color: rgba(255, 0, 0, 0.623);
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-family: Helvetica, Arial, sans-serif;
 }
 
 #blog-box .blog-info__bd span:nth-child(2) {
     color: rgba(0, 0, 0, 0.8);
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-family: sans-serif;
 }
 
 #blog-box .blog-intro__bd {
     color: rgba(0, 0, 0, 0.747);
-    font-size: 1.4rem;
-    padding-left: 2rem;
+    font-size: 1.2rem;
+    padding: 0 2rem;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    /* box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.8),
+                3px 2px 1px rgba(0, 0, 0, 0.3); */
+}
+
+/* streams templates styling */
+/* !-note: the .block- is added by wagtail, it is from the stream fields side */
+.block-title {
+    margin-top: 0.5rem;
+    color: rgb(34, 104, 255);
+    font-weight: bold;
 }
 
 /* 
