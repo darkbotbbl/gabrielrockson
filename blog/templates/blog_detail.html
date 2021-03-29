@@ -3,10 +3,14 @@
 {% block content %}
 
     <div class="container" id="blog-box">
+        
         <!-- header image of the blog -->
         {% with self.main_image as main_image %}
             {% image main_image original as img %}
-            <img src="{{ img.url }}" class="img-fluid blog-image__bd">
+            <div class="image-box__bd">
+                <img src="{{ img.url }}" class="img-fluid blog-image__bd">
+                <div class="title-on-image__bd">{{ self.title }}</h2></div>
+            </div>
         {% endwith %}
 
         <!-- Blog Title -->
@@ -14,14 +18,11 @@
 
         <!-- Blog Information -->
         <div class="row blog-info__bd">
-            <div class="col-lg-3 col-12">
-                <span>Author: </span><span>{{ self.author.fullname }}</span>
+            <div class="col-lg-6 col-12">
+                <span>Author: </span><span> {{ self.author.fullname }}</span>
             </div>
-            <div class="col-lg-3 col-12">
+            <div class="col-lg-6 col-12">
                 <span>Date Posted: </span><span>{{ self.date }}</span>
-            </div>
-            <div class="col-lg-3 col-12">
-                <span>Min Read Time: </span><span>15 minutes</span>
             </div>
         </div>
 

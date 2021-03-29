@@ -1,8 +1,16 @@
+:root {
+    /* --title-font: 'Kurale', serif; */
+    --title-font: 'Dela Gothic One', cursive;
+    --body-font: 'Raleway', sans-serif;
+    --font-one: 'Arvo', serif;
+    --font-two: 'Dosis', sans-serif;
+    --font-three: 'Playfair Display SC', serif;
+    --title-font-1: 'Playfair Display', serif;
+}
+
 body {
     background-color: whitesmoke;
 }
-
-
 
 /* Customizing the navbar */
 
@@ -29,21 +37,69 @@ body {
 #blog-box {
     padding: 0;
     line-height: 2rem;  
-    font-family: sans-serif;
+    font-family: var(--body-font);
+}
+
+@media screen and (min-width: 1000px) {
+    #blog-box {
+        padding: 0 10%;
+    }
+}
+
+@media screen and (max-width: 575px) {
+    #blog-box .blog-body__bd {
+        margin: 5%;
+    }
 }
 
 #blog-box .blog-body__bd p{
-    font-size: 1.2rem;
+    font-size: 1.3rem;
 }
 
 #blog-box .blog-image__bd {
     margin-top: 0.5rem;
 }
 
+#blog-box .image-box__bd {
+   position: relative;
+   text-align: center;
+   color: black;
+}
+
+#blog-box .title-on-image__bd {
+    /* Positioning */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    /* styling */
+    padding: 0.3rem;
+    font-size: 2rem;
+    font-weight: 900;
+    font-style: italic;
+    font-family: var(--title-font-1);
+    line-height: 40px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 5px;
+    color: white;
+    backdrop-filter: drop-shadow(4px 4px 10px blue);
+}
+
+@media screen and (max-width: 550px) {
+    #blog-box .title-on-image__bd {
+        display: none;
+    }
+}
+
 #blog-box .blog-title__bd {
     padding: 2rem;
     margin: 0.5rem;
-    font-weight: bold;
+    font-weight: 900;
+    font-style: italic;
+    font-family: var(--title-font-1);
+    font-size: 2.5rem;
+    color: black;
     text-transform: capitalize;
     box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3),
                 2px 2px 2px rgba(0, 0, 0, 0.8);
@@ -68,20 +124,18 @@ body {
 }
 
 #blog-box .blog-intro__bd {
-    color: rgba(0, 0, 0, 0.747);
-    font-size: 1.2rem;
+    color: rgba(0, 0, 0, 0.8);
+    font-size: 1.8rem;
     padding: 0 2rem;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    /* box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.8),
-                3px 2px 1px rgba(0, 0, 0, 0.3); */
+    font-family: var(--font-two);
 }
 
 /* streams templates styling */
 /* !-note: the .block- is added by wagtail, it is from the stream fields side */
 .block-title {
-    margin-top: 0.5rem;
-    color: rgb(34, 104, 255);
-    font-weight: bold;
+    margin: 2rem 0 1rem 0;
+    color: rgba(0, 0, 0, 0.507);
+    font-family: var(--title-font);
 }
 
 /* 
