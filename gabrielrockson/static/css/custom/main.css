@@ -18,7 +18,7 @@ body {
     color: burlywood;
     font-weight: bold;
     font-size: 1.6rem;
-    font-family: cursive;
+    font-family: var(--title-font);
 }
 
 #custom-nav .nav-item .nav-link {
@@ -30,7 +30,6 @@ body {
     border-bottom: 1px solid red;
     transition: all 1s ease-in;
 }
-
 
 
 /* Customizing Blog */
@@ -134,11 +133,6 @@ body {
 /* !-note: the .block- is added by wagtail, it is from the stream fields side */
 .block-title {
     margin: 2rem 0 1rem 0;
-    color: rgba(0, 0, 0, 0.507);
+    color: rgba(0, 0, 0, 0.6);
     font-family: var(--title-font);
 }
-
-/* 
-todo -> 1. Design the blog detail and the blog listing pages.
-todo -> 1. Customize the navigation even more, make it nicer on mobile devices. Check to see if you can be able to make it drop down fully when on mobile devices.
-*/
